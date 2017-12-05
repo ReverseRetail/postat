@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+development:
+  guid:       'guid'
+  username:   'username'
+  password:   'password'
+  namespace:  'http://example.com/'
+  wsdl:       'http://example.com/soap?WSDL'
+
+test:
+  guid:       'guid'
+  username:   'username'
+  password:   'password'
+  namespace:  'http://example.com/'
+  wsdl:       'http://example.com/soap?WSDL'
+
+beta:
+  guid:       'guid'
+  username:   'username'
+  password:   'password'
+  namespace:  'http://example.com/'
+  wsdl:       'http://example.com/soap?WSDL'
+
+production:
+  guid:       'guid'
+  username:   'username'
+  password:   'password'
+  namespace:  'http://example.com/'
+  wsdl:       'http://example.com/soap?WSDL'
