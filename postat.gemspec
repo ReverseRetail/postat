@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
   s.require_paths = ['lib']
   s.summary       = 'Wrapper for Rylos SOAP Api for PostAt'
-  s.test_files    = ['spec/post_at_spec.rb', 'spec/spec_helper.rb']
+  s.test_files    = ['spec/postat_spec.rb', 'spec/spec_helper.rb']
 
   if s.respond_to? :specification_version
     s.specification_version = 3
