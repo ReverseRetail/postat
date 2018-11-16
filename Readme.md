@@ -1,4 +1,4 @@
-# Shipgate-Soap Wrapper for ruby
+# Rylos Post AT Soap Wrapper for ruby
 
 ## Installation
 
@@ -41,12 +41,12 @@ config/postat.yml
 ```
 
 ## Usage
-This Gem provides you with a Wrapper for the Shipgate-Soap-Api
+This Gem provides you with a Wrapper for the Rylos PostAT-Soap-Api
 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/datyv/postat. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ReverseRetail/postat. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
