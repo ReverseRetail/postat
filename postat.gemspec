@@ -4,11 +4,11 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |s|
   s.name          = 'postat'
   s.version       = '0.0.1'
-  s.authors       = ['Datyv']
-  s.email         = ['yvesgoizet@gmail.com']
+  s.authors       = ['Yves Goizet']
+  s.email         = ['it@buddyandselly.com']
   s.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
 
-  s.homepage      = 'https://github.com/Datyv/postat'
+  s.homepage      = 'https://github.com/ReverseRetail/postat'
   s.license       = 'MIT'
   s.require_paths = ['lib']
   s.summary       = 'Wrapper for Rylos SOAP Api for PostAt'
