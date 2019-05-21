@@ -30,7 +30,7 @@ class Postat
       message<< { 'post:CancelShipmentRow' => row }
     end
     response = client.call(:cancel_shipments, message: { 'post:shipments' => message })
-    handle_response response
+    handle_response(response, action: :cancel_shipments)
   end
 
   def generate_label(options = {})
@@ -50,11 +50,12 @@ class Postat
 
   private
 
-  def handle_response(response)
+  def handle_response(response, action: :import_shipment)
+    action_name = "#{action}_response".to_sym
     response = response.to_hash
-    success = response&.dig(:import_shipment_response, :pdf_data) || false
-    return response if success
-    raise StandardError, [response&.dig(:import_shipment_response, :error_message)]
+    error = response&.dig(action_name, :error_message).to_s
+    return response if error.blank?
+    raise StandardError, [error]
   end
 
   def add_printing_details
