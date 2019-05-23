@@ -25,23 +25,26 @@ class Postat
   def delete_label(options = {})
     message = []
     options[:shipments]&.each do |shipment|
-      row = add_common_params
+      row = init_message
       row['post:Number'] = shipment[:reference_number]
+      add_common_params(row)
       message<< { 'post:CancelShipmentRow' => row }
     end
     response = client.call(:cancel_shipments, message: { 'post:shipments' => message })
     handle_response(response, action: :cancel_shipments)
   end
 
+  # NOTE: be careful with the order of attributes to avoid fake missing attribute errors
   def generate_label(options = {})
-    message = add_common_params
+    message = init_message
     message['post:DeliveryServiceThirdPartyID'] = options[:delivery_code]
     message['post:Number'] = options[:reference_number]
-    message['post:ShippingDateTimeFrom'] = (Time.zone.now + 180).iso8601
-    message['post:OUShipperAddress'] = add_address(options[:from])
-    message['post:OURecipientAddress'] = add_address(options[:to])
-    message['post:PrinterObject'] = add_printing_details
     message['post:ColloList'] = add_packages(options[:package])
+    # message['post:ShippingDateTimeFrom'] = (Time.zone.now + 180).iso8601
+    message['post:OURecipientAddress'] = add_address(options[:to])
+    message['post:OUShipperAddress'] = add_address(options[:from])
+    add_common_params(message)
+    message['post:PrinterObject'] = add_printing_details
     # TODO: Look for the new attrs names for: PaymentType, Commodities
 
     response = client.call(:import_shipment, message: { 'post:row' => message })
@@ -53,25 +56,27 @@ class Postat
   def handle_response(response, action: :import_shipment)
     action_name = "#{action}_response".to_sym
     response = response.to_hash
-    error = response&.dig(action_name, :error_message).to_s
+    error = response&.dig(action_name, :error_message)
+    error ||= response&.dig(action_name, :error_code)
     return response if error.blank?
     raise StandardError, [error]
   end
 
   def add_printing_details
     {
+      'post:LanguageID'    => 'pdf',
       'post:LabelFormatID' => '100x200',
-      'post:PaperLayoutID' => 'A5',
-      'post:LanguageID'    => 'pdf'
+      'post:PaperLayoutID' => 'A5'
     }
   end
 
-  def add_common_params
-    {
-      'post:ClientID' => POSTAT_CONFIG[:client_id] || raise('postat config missing :client_id'),
-      'post:OrgUnitID' => POSTAT_CONFIG[:org_unit_id] || raise('postat config missing :org_unit_id'),
-      'post:OrgUnitGuid' => POSTAT_CONFIG[:org_unit_guid] || raise('postat config missing :org_unit_guid')
-    }
+  def init_message
+    { 'post:ClientID' => POSTAT_CONFIG[:client_id] || raise('postat config missing :client_id') }
+  end
+
+  def add_common_params(data)
+    data['post:OrgUnitGuid'] = POSTAT_CONFIG[:org_unit_guid] || raise('postat config missing :org_unit_guid')
+    data['post:OrgUnitID'] = POSTAT_CONFIG[:org_unit_id] || raise('postat config missing :org_unit_id')
   end
 
   def add_address(address)
