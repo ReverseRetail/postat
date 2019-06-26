@@ -10,8 +10,8 @@ class Postat
                            convert_request_keys_to: :none,
                            env_namespace: :soapenv,
                            namespace_identifier: :post,
-                           log: true,
-                           pretty_print_xml: true,
+                           log: POSTAT_CONFIG[:log] || true,
+                           pretty_print_xml: POSTAT_CONFIG[:print_xml] || true,
                            endpoint: POSTAT_CONFIG[:endpoint],
                            namespaces: {
                              'xmlns:post' => 'http://post.ondot.at',
